@@ -1,0 +1,109 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="快递查询">
+    <title>快递查询</title>
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+
+    <!--    加载md5加密-->
+    <script src="js/md5.min.js"></script>
+
+    <!--    加载快递鸟密钥-->
+    <script src="js/key.js"></script>
+
+    <!--    加载js文件-->
+    <script src="js/script.js"></script>
+
+</head>
+
+
+<body>
+
+<div class="container">
+    <div class="jumbotron bg-info text-light mt-3">
+        <h1>快递查询</h1>
+        <h4>本页面是通过快递鸟免费版API实现, 支持 中通, 圆通 和 申通三家快递运单的批量查询</h4>
+    </div>
+
+    <div class="row">
+
+        <h4 class="col-12 text-center mb-2">输入需要查询的运单号 <small>(多个运单号请用换行分割)</small></h4>
+        <div class="col-sm-9 col-12 form-group">
+            <textarea id="pending-list" class="form-control" rows="5"></textarea>
+        </div>
+        <div class="col-sm-3 col-12 form-group">
+            <button id="submit" class="btn btn-info w-100 h-100">查询</button>
+        </div>
+        <div class="col-12 form-group">
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="zto" name="courier" value="ZTO" checked>
+                <label class="custom-control-label" for="zto">中通快递</label>
+            </div>
+
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="yto" name="courier" value="YTO">
+                <label class="custom-control-label" for="yto">圆通快递</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="sto" name="courier" value="STO">
+                <label class="custom-control-label" for="sto">申通快递</label>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="progress" style="opacity: 0">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"></div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row my-2">
+        <div class="col-sm-6 p-1">
+            <h4 class="col-12 text-center mb-2">无物流信息运单</h4>
+            <textarea id="not-found-list" class="form-control text-danger" rows="5"></textarea>
+
+        </div>
+        <div class="col-sm-6 p-1">
+            <h4 class="col-12 text-center mb-2">有物流信息运单</h4>
+            <textarea id="found-list" class="form-control text-success" rows="5"></textarea>
+
+        </div>
+
+    </div>
+
+    <hr class="my-4">
+
+    <div id="result-container" class="row my-2">
+        <h4 class="col-12">物流信息列表</h4>
+        <div id="result" class="col-12">
+
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="my-4">
+        @河蟹 <a href="http://www.mikuclub.org/" target="_blank">www.mikuclub.org</a>
+    </div>
+
+</div>
+
+
+</body>
+</html>
