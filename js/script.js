@@ -148,6 +148,9 @@ function setElement(response) {
     let lastInfo = "无物流信息";
     let tracesInfo = "<ul class='list-group'>";
     if (response.Traces && response.Traces.length > 0) {
+		
+		response.Traces =  response.Traces.reverse();
+		
         lastInfo = `<b>${response.Traces[0].AcceptTime}</b> ${response.Traces[0].AcceptStation}`;
         for (let trace of response.Traces) {
             tracesInfo += `<li class="list-group-item"><b>${trace.AcceptTime}</b> ${trace.AcceptStation}</li>`
