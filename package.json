@@ -1,0 +1,32 @@
+{
+  "name": "courier-batch-tracking",
+  "version": "1.0.0",
+  "description": "本应用是基于快递鸟免费api开发, 使用html+Jquery+bootstrap完成, 只要用游览器打开即可使用, 无需安装任何依赖和环境.\r 因为是使用了免费版api, 当前只支持3种快递的批量查询, 分别是 中通, 圆通 和 申通.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hexie2108/courier-batch-tracking.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hexie2108/courier-batch-tracking/issues"
+  },
+  "homepage": "https://github.com/hexie2108/courier-batch-tracking#readme",
+  "dependencies": {
+    "abort-controller": "^3.0.0",
+    "body-parser": "^1.19.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fetch-headers": "^2.0.0",
+    "md5": "^2.3.0",
+    "node-fetch": "^2.6.0",
+    "querystring": "^0.2.0",
+    "url": "^0.11.0"
+  }
+}

@@ -1,21 +1,15 @@
 //实时物流查询api地址
-const URL = "http://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx";
+const URL = "/tracking";
 
 const ID_PREFIX = "code-";
 
 //页面切换动画时间 (毫秒)
 const ANIMATION_SPEED = 500;
 
-//请求基本参数
-let requestBody = {
-    EBusinessID: USER_ID,
-    RequestType: 1002,
-    DataType: 2,
-}
 
 $(function () {
     //点击查询按钮触发
-    $("#submit").click(function () {
+    $("#submit").on('click', function () {
 
         reset();
 
@@ -63,25 +57,30 @@ function formatValue(shipperCodeList) {
  */
 function sendRequest(codeList, courierCode) {
 
+    let successCallback = function (response) {
+
+        setElement(response);
+        modifyList(response);
+        setProgressBar();
+    };
+
+    let failCallback = function (jqXHR) {
+      console.log(jqXHR.responseText);
+      alert('请求错误');
+    }
+
+
     for (let code of codeList) {
 
-        let requestDataString = JSON.stringify({
-            ShipperCode: courierCode,
-            LogisticCode: code
-        });
+        let bodyData = {
+            trackingNumber: code,
+            courierCode: courierCode,
+        }
+        $.post(URL, bodyData).done(successCallback).fail(failCallback);
 
-        requestBody.DataSign = encodeURIComponent(btoa(md5(requestDataString + API_KEY)));
-        requestBody.RequestData = requestDataString;
-
-        $.post(URL, requestBody, function (response) {
-
-           let responseObject = JSON.parse(response);
-            setElement(responseObject);
-            modifyList(responseObject);
-            setProgressBar();
-
-        });
     }
+
+
 
 }
 
@@ -123,19 +122,18 @@ function createElement(codeList) {
  */
 function modifyList(response) {
 
-    if (response.LogisticCode) {
 
         let $listTextArea;
         //数组不是空 说明有物流信息
-        if (response.Traces && response.Traces.length > 0) {
+        if (response.traces && response.traces.length > 0) {
             $listTextArea = $("#found-list");
         } else {
             $listTextArea = $("#not-found-list");
         }
 
-        let value = $listTextArea.val() + response.LogisticCode + "\n";
+        let value = $listTextArea.val() + response.trackingNumber + "\n";
         $listTextArea.val(value);
-    }
+
 }
 
 /**
@@ -147,18 +145,17 @@ function setElement(response) {
 
     let lastInfo = "无物流信息";
     let tracesInfo = "<ul class='list-group'>";
-    if (response.Traces && response.Traces.length > 0) {
+    if (response.traces && response.traces.length > 0) {
+
 		
-		response.Traces =  response.Traces.reverse();
-		
-        lastInfo = `<b>${response.Traces[0].AcceptTime}</b> ${response.Traces[0].AcceptStation}`;
-        for (let trace of response.Traces) {
-            tracesInfo += `<li class="list-group-item"><b>${trace.AcceptTime}</b> ${trace.AcceptStation}</li>`
+        lastInfo = `<b>${response.traces[0].date}</b> ${response.traces[0].info}`;
+        for (let trace of response.traces) {
+            tracesInfo += `<li class="list-group-item"><b>${trace.date}</b> ${trace.info}</li>`
         }
     }
     tracesInfo += "</ul>";
 
-    $element = $(`#${ID_PREFIX}${response.LogisticCode}`);
+    $element = $(`#${ID_PREFIX}${response.trackingNumber}`);
     $element.find("a span.last-info").html(lastInfo);
     $element.find("div.collapse div").append(tracesInfo);
     $element.show(ANIMATION_SPEED);
